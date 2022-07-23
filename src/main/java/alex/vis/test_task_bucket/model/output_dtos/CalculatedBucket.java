@@ -1,4 +1,4 @@
-package alex.vis.test_task_bucket.model.output_types;
+package alex.vis.test_task_bucket.model.output_dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class CalculatedBucket {
-    private List<PositionInfo> positionInfos;
+    private List<PositionDto> positionDtos;
 
     private BigDecimal totalSum;
 

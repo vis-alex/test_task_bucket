@@ -1,15 +1,14 @@
-package alex.vis.test_task_bucket.model.output_types;
+package alex.vis.test_task_bucket.model.output_dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class PositionInfo {
-    private List<ProductInfo> productInfos;
+public class PositionDto {
+    private ProductDto productDtos;
 
     private BigDecimal positionSum;
 }
