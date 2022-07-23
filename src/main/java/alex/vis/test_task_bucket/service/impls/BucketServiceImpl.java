@@ -1,5 +1,6 @@
 package alex.vis.test_task_bucket.service.impls;
 
+import alex.vis.test_task_bucket.cache.ProductCache;
 import alex.vis.test_task_bucket.client.OpenProductClient;
 import alex.vis.test_task_bucket.model.Bucket;
 import alex.vis.test_task_bucket.model.Product;
@@ -18,9 +19,12 @@ public class BucketServiceImpl implements BucketService {
 
     private final OpenProductClient productClient;
 
+    private final ProductCache cache;
+
     @Autowired
-    public BucketServiceImpl(OpenProductClient productClient) {
+    public BucketServiceImpl(OpenProductClient productClient, ProductCache cache) {
         this.productClient = productClient;
+        this.cache = cache;
     }
 
     @Override
@@ -46,9 +50,16 @@ public class BucketServiceImpl implements BucketService {
         return new CalculatedBucket(outputPositionDtos, totalSum);
     }
 
-    //Get product and extract price from it
+    //Get product from cache or client and extract price from it
+    //Do caching
     private BigDecimal getPriceByProductId(int productId) {
-        Product product = productClient.getProductById(productId);
+        Product product = cache.getProductById(productId);
+
+        if (product == null) {
+            product = productClient.getProductById(productId);
+            cache.put(productId, product);
+        }
+
         return product.getPrice();
     }
 }
